@@ -1,0 +1,23 @@
+{
+  "name": "vue-gl-firstpersoncamera",
+  "version": "1.0.0",
+  "description": "A quick and dirty first person camera for Vue-GL",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raffaelecassia/vue-gl-firstpersoncamera.git"
+  },
+  "author": "Raffaele Cassia",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/raffaelecassia/vue-gl-firstpersoncamera/issues"
+  },
+  "homepage": "https://github.com/raffaelecassia/vue-gl-firstpersoncamera#readme",
+  "dependencies": {
+    "lodash-es": "^4.17.11",
+    "vue-gl": "^0.12.1"
+  }
+}
