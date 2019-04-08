@@ -4,94 +4,94 @@ import { throttle } from 'lodash-es'
 
 class PointerLockControls extends EventTarget {
 
-  cameraHeight = 16
-
-  camera
-  renderFunc
-  controls
-
-  killanimation = false
-
-  moveForward = false
-  moveBackward = false
-  moveLeft = false
-  moveRight = false
-  canJump = false
-
-  prevTime
-  velocity
-  direction
-
-  keyboard = {
-    onKeyDown: (event) => {
-      switch (event.keyCode) {
-        case 38: // up
-        case 87: // w
-          this.moveForward = true
-          break
-        case 37: // left
-        case 65: // a
-          this.moveLeft = true
-          break
-        case 40: // down
-        case 83: // s
-          this.moveBackward = true
-          break
-        case 39: // right
-        case 68: // d
-          this.moveRight = true
-          break
-        case 32: // space
-          if (this.canJump === true) this.velocity.y += 200
-          this.canJump = false
-          break
-      }
-    },
-    onKeyUp: (event) => {
-      switch (event.keyCode) {
-        case 38: // up
-        case 87: // w
-          this.moveForward = false
-          break
-        case 37: // left
-        case 65: // a
-          this.moveLeft = false
-          break
-        case 40: // down
-        case 83: // s
-          this.moveBackward = false
-          break
-        case 39: // right
-        case 68: // d
-          this.moveRight = false
-          break
-      }
-    }
-  }
-
-  events = {
-    lock: () => {
-      this.moveForward = false
-      this.moveBackward = false
-      this.moveLeft = false
-      this.moveRight = false
-      this.canJump = false
-      this.killanimation = false
-      this.velocity = new Vector3()
-      this.direction = new Vector3()
-      this.prevTime = performance.now()
-      // START THE ANIMATION
-      this.animate()
-      // console.log('PointerLockControls lock')
-    },
-    unlock: () => {
-      this.killanimation = true
-      this.dispatchEvent(new Event('unlock'))
-    }
-  }
-
   constructor(renderFunc) {
     super()
+
+    this.cameraHeight = 16
+    this.killanimation = false
+
+    this.moveForward = false
+    this.moveBackward = false
+    this.moveLeft = false
+    this.moveRight = false
+    this.canJump = false
+
+    this.prevTime = null
+    this.velocity = null
+    this.direction = null
+
+    this.keyboard = {
+      onKeyDown: (event) => {
+        switch (event.keyCode) {
+          case 38: // up
+          case 87: // w
+            this.moveForward = true
+            break
+          case 37: // left
+          case 65: // a
+            this.moveLeft = true
+            break
+          case 40: // down
+          case 83: // s
+            this.moveBackward = true
+            break
+          case 39: // right
+          case 68: // d
+            this.moveRight = true
+            break
+          case 32: // space
+            if (this.canJump === true) this.velocity.y += 200
+            this.canJump = false
+            break
+        }
+      },
+      onKeyUp: (event) => {
+        switch (event.keyCode) {
+          case 38: // up
+          case 87: // w
+            this.moveForward = false
+            break
+          case 37: // left
+          case 65: // a
+            this.moveLeft = false
+            break
+          case 40: // down
+          case 83: // s
+            this.moveBackward = false
+            break
+          case 39: // right
+          case 68: // d
+            this.moveRight = false
+            break
+        }
+      }
+    }
+
+    this.events = {
+      lock: () => {
+        this.moveForward = false
+        this.moveBackward = false
+        this.moveLeft = false
+        this.moveRight = false
+        this.canJump = false
+        this.killanimation = false
+        this.velocity = new Vector3()
+        this.direction = new Vector3()
+        this.prevTime = performance.now()
+        // START THE ANIMATION
+        this.animate()
+        // console.log('PointerLockControls lock')
+      },
+      unlock: () => {
+        this.killanimation = true
+        this.dispatchEvent(new Event('unlock'))
+      }
+    }
+
+    this.emitMoveEvent = throttle(() => {
+      this.dispatchEvent(new Event('move'))
+    }, 1000, {})
+
     this.camera = new PerspectiveCamera()
     this.renderFunc = renderFunc
     this.controls = new PointerLockControlsLib(this.camera)
@@ -141,10 +141,6 @@ class PointerLockControls extends EventTarget {
     this.controls.dispose()
     // console.log('PointerLockControls disposed');
   }
-
-  emitMoveEvent = throttle(() => {
-    this.dispatchEvent(new Event('move'))
-  }, 1000, {})
 
   animate() {
 
