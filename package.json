@@ -1,6 +1,6 @@
 {
   "name": "vue-gl-firstpersoncamera",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A quick and dirty first person camera for Vue-GL",
   "main": "build/index.js",
   "scripts": {
