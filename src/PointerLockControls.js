@@ -1,6 +1,6 @@
 import PointerLockControlsLib from './PointerLockControlsLib'
 import { Vector3, PerspectiveCamera } from 'three'
-import { throttle } from 'lodash-es'
+import throttle from 'lodash.throttle'
 
 class PointerLockControls extends EventTarget {
 
