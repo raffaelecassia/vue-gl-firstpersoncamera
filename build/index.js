@@ -1,5 +1,5 @@
 import { EventDispatcher, Object3D, Vector3, Euler, PerspectiveCamera } from 'three';
-import throttle from 'lodash.throttle';
+import { throttle } from 'lodash';
 
 /*
   Copied and modularized from
